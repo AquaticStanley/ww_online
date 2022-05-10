@@ -1,0 +1,4 @@
+TODOS
+
+-Fork dolphin memory engine and modify the CMake to construct the library properly
+-Install script to clone the DME and pybind repos into External/
