@@ -1,7 +1,6 @@
-#include <iostream>
+#pragma once
 
+#include <pybind11/pybind11.h>
 #include "External/Dolphin-memory-engine/Source/DolphinProcess/DolphinAccessor.h"
 
-int main() {
-	std::cout << "Test" << std::endl;
-}
+namespace py = pybind11;
