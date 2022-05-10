@@ -1,9 +1,5 @@
+cmake_minimum_required(VERSION 3.5.0)
 project (ww_online)
-cmake_minimum_required(VERSION 3.1)
 
-add_subdirectory(External)
-
-
-ADD_EXECUTABLE(ww_online main.cpp)
-
-target_link_libraries(ww_online PUBLIC DME_LIBRARY)
+add_subdirectory(External/Dolphin-memory-engine/Source)
+add_executable(ww_online main.cpp)
