@@ -4,4 +4,6 @@
 
 int main() {
 	std::cout << "Test" << std::endl;
+	DolphinComm::DolphinAccessor t;
+	t.init();
 }
