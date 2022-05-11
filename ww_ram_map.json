@@ -2,15 +2,15 @@
 	"player_status": {
 		"max_hp": {
 			"size": 2,
-			"location": "803C4C08",
+			"location": "803C4C08"
 		},
 		"current_hp": {
 			"size": 2,
-			"location": "803C4C0A",
+			"location": "803C4C0A"
 		},
 		"equipped_sword": {
 			"size": 1,
-			"location": "803C4C16",
+			"location": "803C4C16"
 		}
 	}
 }
