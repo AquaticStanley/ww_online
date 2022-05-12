@@ -2,15 +2,21 @@
 	"player_status": {
 		"max_hp": {
 			"size": 2,
-			"location": "803C4C08"
+			"location": "803C4C08",
+			"mem_type": "HALFWORD",
+			"mem_base": "DEC"
 		},
 		"current_hp": {
 			"size": 2,
-			"location": "803C4C0A"
+			"location": "803C4C0A",
+			"mem_type": "HALFWORD",
+			"mem_base": "DEC"
 		},
 		"equipped_sword": {
 			"size": 1,
-			"location": "803C4C16"
+			"location": "803C4C16",
+			"mem_type": "HALFWORD",
+			"mem_base": "DEC"
 		}
 	}
 }
