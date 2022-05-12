@@ -1,5 +1,8 @@
 #include "dme_bindings.h"
 
+#include "External/Dolphin-memory-engine/Source/DolphinProcess/DolphinAccessor.h"
+#include "External/Dolphin-memory-engine/Source/Common/CommonUtils.h"
+
 #include <iostream>
 
 PYBIND11_MODULE(dme, m) {
@@ -39,11 +42,9 @@ PYBIND11_MODULE(dme, m) {
 		.def_static("init", &DolphinAccessor::init)
 		.def_static("hook", &DolphinAccessor::hook)
 		.def_static("unhook", &DolphinAccessor::unHook)
-		.def_static("read_from_ram", [](uint32_t offset, size_t size, Common::MemType type, Common::MemBase base) -> std::optional<std::string> {
+		.def_static("read_from_ram", [](const uint32_t offset, const size_t size, const Common::MemType type, const Common::MemBase base) -> std::optional<std::string> {
 			char* buf = new char[size];
-			std::cout << "Attempting to read" << std::endl;
 			if(DolphinComm::DolphinAccessor::readFromRAM(Common::dolphinAddrToOffset(offset, DolphinComm::DolphinAccessor::isARAMAccessible()), buf, getSizeForType(type, size), shouldBeBSwappedForType(type))) {
-				std::cout << "Read successfully" << std::endl;
 				std::string ret_val = Common::formatMemoryToString(buf, type, size, base, false);
 				delete [] buf;
 				return ret_val;
