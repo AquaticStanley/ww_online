@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <optional>
 
 #include "External/Dolphin-memory-engine/Source/DolphinProcess/DolphinAccessor.h"
 #include "External/Dolphin-memory-engine/Source/Common/CommonUtils.h"
@@ -14,15 +15,35 @@ int main() {
 
 	std::cout << "Hooked to emulator successfully!" << std::endl;
 
-	size_t m_length = 2;
-	Common::MemType m_type = Common::MemType::type_halfword;
-	Common::MemBase m_base = Common::MemBase::base_decimal;
-	bool m_isUnsigned = false;
-	char* m_memory = new char[m_length];
-	if (DolphinComm::DolphinAccessor::readFromRAM(Common::dolphinAddrToOffset(0x803C4C08, DolphinComm::DolphinAccessor::isARAMAccessible()), m_memory, getSizeForType(m_type, m_length), shouldBeBSwappedForType(m_type))) {
-		std::cout << "Read successfully" << std::endl;
+	// size_t m_length = 2;
+	// Common::MemType m_type = Common::MemType::type_halfword;
+	// Common::MemBase m_base = Common::MemBase::base_decimal;
+	// bool m_isUnsigned = false;
+	// char* m_memory = new char[m_length];
+	// if (DolphinComm::DolphinAccessor::readFromRAM(Common::dolphinAddrToOffset(0x803C4C08, DolphinComm::DolphinAccessor::isARAMAccessible()), m_memory, getSizeForType(m_type, m_length), shouldBeBSwappedForType(m_type))) {
+	// 	std::cout << "Read successfully" << std::endl;
 
-		std::string s = Common::formatMemoryToString(m_memory, m_type, m_length, m_base, m_isUnsigned);
-		std::cout << s << std::endl;
+	// 	std::string s = Common::formatMemoryToString(m_memory, m_type, m_length, m_base, m_isUnsigned);
+	// 	std::cout << s << std::endl;
+	// }
+
+	auto read_from_ram = [](const uint32_t offset, const size_t size, const Common::MemType type, const Common::MemBase base) -> std::optional<std::string> {
+		char* buf = new char[size];
+		if(DolphinComm::DolphinAccessor::readFromRAM(Common::dolphinAddrToOffset(offset, DolphinComm::DolphinAccessor::isARAMAccessible()), buf, getSizeForType(type, size), shouldBeBSwappedForType(type))) {
+			std::cout << "Read successfully" << std::endl;
+			std::string ret_val = Common::formatMemoryToString(buf, type, size, base, false);
+			delete [] buf;
+			return ret_val;
+		}
+
+		return std::nullopt;
+	};
+
+	auto result = read_from_ram(0x803C4C08, 2, Common::MemType::type_halfword, Common::MemBase::base_decimal);
+
+	if(result.has_value()) {
+		std::cout << *result << std::endl;
+	} else {
+		std::cout << "No result" << std::endl;
 	}
 }
