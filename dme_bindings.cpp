@@ -43,16 +43,27 @@ PYBIND11_MODULE(dme, m) {
 		.def_static("hook", &DolphinAccessor::hook)
 		.def_static("unhook", &DolphinAccessor::unHook)
 		.def_static("read_from_ram", [](const uint32_t offset, const size_t size, const Common::MemType type, const Common::MemBase base) -> std::optional<std::string> {
-			char* buf = new char[size];
-			if(DolphinComm::DolphinAccessor::readFromRAM(Common::dolphinAddrToOffset(offset, DolphinComm::DolphinAccessor::isARAMAccessible()), buf, getSizeForType(type, size), shouldBeBSwappedForType(type))) {
-				std::string ret_val = Common::formatMemoryToString(buf, type, size, base, false);
-				delete [] buf;
+			char* buffer = new char[size];
+			if(DolphinComm::DolphinAccessor::readFromRAM(Common::dolphinAddrToOffset(offset, DolphinComm::DolphinAccessor::isARAMAccessible()), buffer, getSizeForType(type, size), shouldBeBSwappedForType(type))) {
+				std::string ret_val = Common::formatMemoryToString(buffer, type, size, base, false);
+				delete [] buffer;
 				return ret_val;
 			}
 
 			return std::nullopt;
 		})
-		.def_static("write_to_ram", &DolphinAccessor::writeToRAM)
+		.def_static("write_to_ram", [](const uint32_t offset, uint64_t value, const size_t size, const Common::MemType type) {
+			char* buffer = new char[size];
+			std::memcpy(buffer, &value, sizeof(value));
+			DolphinComm::DolphinAccessor::writeToRAM(Common::dolphinAddrToOffset(offset, DolphinComm::DolphinAccessor::isARAMAccessible()), buffer, getSizeForType(type, size), shouldBeBSwappedForType(type));
+			delete [] buffer;
+		})
+		.def_static("write_to_ram", [](const uint32_t offset, float value, const size_t size, const Common::MemType type) {
+			char* buffer = new char[size];
+			std::memcpy(buffer, &value, sizeof(value));
+			DolphinComm::DolphinAccessor::writeToRAM(Common::dolphinAddrToOffset(offset, DolphinComm::DolphinAccessor::isARAMAccessible()), buffer, getSizeForType(type, size), shouldBeBSwappedForType(type));
+			delete [] buffer;
+		})
 		.def_static("get_pid", &DolphinAccessor::getPID)
 		.def_static("get_emu_ram_addr_start", &DolphinAccessor::getEmuRAMAddressStart)
 		.def_static("get_status", &DolphinAccessor::getStatus)

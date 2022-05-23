@@ -12,6 +12,18 @@
 			"mem_type": "HALFWORD",
 			"mem_base": "DEC"
 		},
+		"hp_modify_this_frame": {
+			"size": 4,
+			"location": "803CA764",
+			"mem_type": "FLOAT",
+			"mem_base": "NONE"
+		},
+		"rupee_modify_this_frame": {
+			"size": 4,
+			"location": "803CA768",
+			"mem_type": "WORD",
+			"mem_base": "DEC"
+		},
 		"equipped_sword": {
 			"size": 1,
 			"location": "803C4C16",
