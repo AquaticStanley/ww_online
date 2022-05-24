@@ -38,6 +38,126 @@
 				"location": "803C4C44",
 				"mem_type": "BYTEARRAY",
 				"mem_base": "DEC"
+			},
+			"Sail": {
+				"size": 1,
+				"location": "803C4C45",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Wind Waker": {
+				"size": 1,
+				"location": "803C4C46",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Grappling Hook": {
+				"size": 1,
+				"location": "803C4C47",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Spoils Bag": {
+				"size": 1,
+				"location": "803C4C48",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Boomerang": {
+				"size": 1,
+				"location": "803C4C49",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Deku Leaf": {
+				"size": 1,
+				"location": "803C4C4A",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Tingle Tuner": {
+				"size": 1,
+				"location": "803C4C4B",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Picto Box": {
+				"size": 1,
+				"location": "803C4C4C",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Iron Boots": {
+				"size": 1,
+				"location": "803C4C4D",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Magic Armor": {
+				"size": 1,
+				"location": "803C4C4E",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Bait Bag": {
+				"size": 1,
+				"location": "803C4C4F",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Bow": {
+				"size": 1,
+				"location": "803C4C50",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Bombs": {
+				"size": 1,
+				"location": "803C4C51",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Bottle 1": {
+				"size": 1,
+				"location": "803C4C52",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Bottle 2": {
+				"size": 1,
+				"location": "803C4C53",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Bottle 3": {
+				"size": 1,
+				"location": "803C4C54",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Bottle 4": {
+				"size": 1,
+				"location": "803C4C55",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Delivery Bag": {
+				"size": 1,
+				"location": "803C4C56",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Hookshot": {
+				"size": 1,
+				"location": "803C4C57",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			},
+			"Skull Hammer": {
+				"size": 1,
+				"location": "803C4C58",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
 			}
 		}
 	}

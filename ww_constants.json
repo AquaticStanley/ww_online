@@ -8,6 +8,93 @@
 	"items": {
 		"Telescope": {
 			"id": "20"
+		},
+		"Sail": {
+			"id": "78"
+		},
+		"Wind Waker": {
+			"id": "22"
+		},
+		"Grappling Hook": {
+			"id": "25"
+		},
+		"Spoils Bag": {
+			"id": "24"
+		},
+		"Boomerang": {
+			"id": "2D"
+		},
+		"Deku Leaf": {
+			"id": "34"
+		},
+		"Tingle Tuner": {
+			"id": "21"
+		},
+		"Picto Box": {
+			"id": "23"
+		},
+		"Picto Box+": {
+			"id": "26"
+		},
+		"Iron Boots": {
+			"id": "29"
+		},
+		"Magic Armor": {
+			"id": "2A"
+		},
+		"Bait Bag": {
+			"id": "2C"
+		},
+		"Bow" : {
+			"id": "27"
+		},
+		"Bow+" : {
+			"id": "35"
+		},
+		"Bow++" : {
+			"id": "36"
+		},
+		"Bombs" : {
+			"id": "31"
+		},
+		"Empty Bottle" : {
+			"id": "50"
+		},
+		"Red Potion" : {
+			"id": "51"
+		},
+		"Green Potion" : {
+			"id": "52"
+		},
+		"Blue Potion" : {
+			"id": "53"
+		},
+		"Elixir Soup-" : {
+			"id": "54"
+		},
+		"Elixir Soup" : {
+			"id": "55"
+		},
+		"Bottled Water" : {
+			"id": "56"
+		},
+		"Fairy in Bottle" : {
+			"id": "57"
+		},
+		"Forest Firefly" : {
+			"id": "58"
+		},
+		"Forest Water" : {
+			"id": "59"
+		},
+		"Delivery Bag" : {
+			"id": "30"
+		},
+		"Hookshot" : {
+			"id": "2F"
+		},
+		"Skull Hammer" : {
+			"id": "33"
 		}
 	}
 }
