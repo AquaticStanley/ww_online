@@ -30,5 +30,15 @@
 			"mem_type": "HALFWORD",
 			"mem_base": "DEC"
 		}
+	},
+	"player_inventory": {
+		"pause_screen": {
+			"Telescope": {
+				"size": 1,
+				"location": "803C4C44",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			}
+		}
 	}
 }

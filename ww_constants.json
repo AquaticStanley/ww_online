@@ -4,5 +4,10 @@
 		"master_sword_powerless": "39",
 		"master_sword_half_power": "3A",
 		"master_sword_full_power": "3E"
+	},
+	"items": {
+		"Telescope": {
+			"id": "20"
+		}
 	}
 }
