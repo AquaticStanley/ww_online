@@ -17,14 +17,15 @@ class WWOnline:
 
 		print('Hooked to emulator successfully!')
 
-		item_to_give = 'Skull Hammer'
-		if inventory.player_has_item(item_to_give):
-			print(f'Player has {item_to_give}!')
+		item_slot_to_give = 'Bottle 1'
+		item_name = 'Green Potion'
+		if inventory.player_has_item(item_slot_to_give, item_name):
+			print(f'Player has {item_slot_to_give}!')
 		else:
-			print(f'Player does not have {item_to_give}!')
-			inventory.give_player_item(item_to_give)
-			if inventory.player_has_item(item_to_give):
-				print(f'Gave player the {item_to_give}!')
+			print(f'Player does not have {item_slot_to_give}!')
+			inventory.give_player_item(item_slot_to_give, item_name)
+			if inventory.player_has_item(item_slot_to_give, item_name):
+				print(f'Gave player the {item_slot_to_give}!')
 
 
 if __name__ == '__main__':
