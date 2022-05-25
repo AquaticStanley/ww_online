@@ -2,7 +2,7 @@
 
 import sys
 
-from windy import memory_access, inventory, ram
+from windy import memory_access, inventory, ram, player_status
 import dme
 
 class WWOnline:
@@ -17,8 +17,10 @@ class WWOnline:
 
 		print('Hooked to emulator successfully!')
 
+		player_status.set_player_max_hp(36)
+		player_status.set_player_rupees(120)
 		item_slot_to_give = 'Bottle 1'
-		item_name = 'Green Potion'
+		item_name = 'Forest Firefly'
 		if inventory.player_has_item(item_slot_to_give, item_name):
 			print(f'Player has {item_slot_to_give}!')
 		else:
