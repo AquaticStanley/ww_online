@@ -5,7 +5,7 @@ You're going to want to run install.sh, this just creates the directory our depe
 
 After this, in the top level directory, run:
 
-`make build && cd build`
+`mkdir build && cd build`
 
 `cmake ..`
 
@@ -33,6 +33,6 @@ This should successfully hook up to your running Wind Waker instance and print r
 
 # Troubleshooting
 
-If your process is reading zeroed values seemingly no matter what you do, or is failing to hook up to the dolphin process, you may need to call `sudo setcap` as described at https://github.com/aldelaro5/Dolphin-memory-engine.
+If your process is reading zeroed values seemingly no matter what you do, or is failing to hook up to the dolphin process, you may need to call `sudo setcap` as described at https://github.com/aldelaro5/Dolphin-memory-engine. Specifically, you will need to perform this on your Python executable.
 
 There may be other dependencies I've forgotten about at this point - let me know and I'll add them here.
