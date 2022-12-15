@@ -6,6 +6,9 @@
 		"master_sword_full_power": "3E"
 	},
 	"items": {
+		"Nothing": {
+			"id": "FF"
+		},
 		"Telescope": {
 			"id": "20"
 		},

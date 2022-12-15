@@ -1,0 +1,64 @@
+{
+	"message_type": "player_login_request",
+	"player_login_request": {
+		"player_id": "tristan",
+		"room_name": "SIPBOYS",
+		"password" "toplel"
+	}
+}
+
+{
+	"message_type": "player_connected",
+	"player_connected": {
+		"player_id": "tristan"
+	}
+}
+
+{
+	"message_type": "player_disconnected",
+	"player disconnected": {
+		"player_id": "tristan"
+	}
+}
+
+{
+	"message_type": "player_obtained_item",
+	"player_obtained_item": {
+		"originating_player_id": "tristan",
+		"item_slot": "Tingle Tuner",
+		"item_name": "Tingle Tuner"
+	}
+}
+
+{
+	"message_type": "player_state",
+	"player_state": {
+		"player_id": "tristan",
+		"inventory": {
+			"Telescope": "Telescope",
+			"Sail": "Sail",
+			"Wind Waker": "Wind Waker",
+			"Grappling Hook": "Grappling Hook",
+			"Spoils Bag": "Spoils Bag",
+			"Boomerang": "Boomerang",
+			"Deku Leaf": "Deku Leaf",
+			"Tingle Tuner": "Tingle Tuner",
+			"Picto Box": "Picto Box",
+			"Iron Boots": "Iron Boots",
+			"Magic Armor": "Magic Armor",
+			"Bait Bag": "Bait Bag",
+			"Bow": "Bow",
+			"Bombs": "Bombs",
+			"Bottle 1": "Bottle 1",
+			"Bottle 2": "Bottle 2",
+			"Bottle 3": "Bottle 3",
+			"Bottle 4": "Bottle 4",
+			"Delivery Bag": "Delivery Bag",
+			"Hookshot": "Hookshot",
+			"Skull Hammer": "Skull Hammer",
+		},
+		"player_state": {
+			"max_health": 32
+		}
+	}
+}
