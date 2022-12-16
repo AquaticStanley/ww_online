@@ -11,6 +11,13 @@ def set_player_max_hp(hp_value):
 	# Modify the player hp by 1 this frame
 	write_to_ram(ram_map()['player_status']['hp_modify_this_frame'], 1.0)
 
+def get_player_max_hp():
+	return int(read_from_ram(ram_map()['player_status']['max_hp']), 16)
 
 def set_player_rupees(rupees):
 	write_to_ram(ram_map()['player_status']['rupee_modify_this_frame'], rupees)
+
+def build_player_status_state():
+	return  {
+		'max_hp': get_player_max_hp()
+	}

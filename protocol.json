@@ -31,6 +31,15 @@
 }
 
 {
+	"message_type": "player_status_updated",
+	"player_status_updated": {
+		"originating_player_id": "tristan",
+		"player_status_field": "max_hp",
+		"player_status_value": "3F"
+	}
+}
+
+{
 	"message_type": "player_state",
 	"player_state": {
 		"player_id": "tristan",
@@ -58,7 +67,7 @@
 			"Skull Hammer": "Skull Hammer",
 		},
 		"player_stats": {
-			"max_health": 32
+			"max_hp": 32
 		},
 		"equipment": {
 			"": ""

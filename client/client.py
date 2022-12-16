@@ -58,6 +58,9 @@ class WWOnlineClient:
 								if server_message['message_type'] == 'player_obtained_item':
 									await self.handle_player_obtained_item(server_message['player_obtained_item'])
 
+								elif server_message['message_type'] == 'player_status_updated':
+									await self.handle_player_status_updated(server_message['player_status_updated'])
+
 							elif msg.type == aiohttp.WSMsgType.ERROR:
 								break
 				except Exception as e:
@@ -71,10 +74,16 @@ class WWOnlineClient:
 		print(f"Player {player_obtained_item_message['originating_player_id']} obtained item {player_obtained_item_message['item_id']} - adding to our inventory.")
 		inventory.give_player_item_by_id(player_obtained_item_message['item_slot'], player_obtained_item_message['item_id'])
 
+	async def handle_player_status_updated(self, player_status_updated_message):
+		print(f"Player {player_status_updated_message['originating_player_id']} updated their {player_status_updated_message['player_status_field']} to {player_status_updated_message['player_status_value']}")
+		# Special case for hp, possibly rupees and other values?
+		if player_status_updated_message['player_status_field'] == 'max_hp':
+			player_status.set_player_max_hp(player_status_updated_message['player_status_value'])
+
 	def get_player_state_json(self, player_state):
 		return {
 			'message_type': 'player_state',
-			'player_state': player_state
+			'player_state': player_state,
 		}
 
 	async def send_current_state(self):
@@ -83,6 +92,7 @@ class WWOnlineClient:
 				player_state = {
 					'player_id': self.player_name,
 					'inventory': inventory.build_inventory_state(),
+					'player_stats': player_status.build_player_status_state(),
 				}
 
 				await self.ws.send_json(self.get_player_state_json(player_state))

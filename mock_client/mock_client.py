@@ -111,12 +111,18 @@ class MockClient:
 			'Skull Hammer': 'FF',
 		}
 
+	def get_player_stats(self):
+		return {
+			'max_hp': 32,
+		}
+
 	async def send_current_state(self):
 		while True:
 			if self.ws:
 				player_state = {
 					'player_id': self.player_name,
 					'inventory': self.get_initial_inventory() if self.start_time + timedelta(0, 10) > datetime.now() else self.get_final_inventory(),
+					'player_stats': self.get_player_stats(),
 				}
 
 				await self.ws.send_json(self.get_player_state_json(player_state))

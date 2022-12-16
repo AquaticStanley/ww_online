@@ -21,23 +21,9 @@ class Room:
 		self.name = name
 		self.password = password
 		self.clients = {}
+		self.ws_clients_to_remove = set()
 
 	async def handle_player_state_update(self, ws_client, message):
-		# There are two approaches here - the lazy approach and the smart approach. AFAIK, both seem like they would work, and we'll start with the lazy approach initially.
-		# The first approach is as follows:
-		# First, diff the old player state and the new player state and see if anything has changed
-		# If it has, the player has gained an item and we should broadcast that out to the rest of the clients.
-		# If the clients get something they haven't gotten already, they'll update their state, end up here, and we re-broadcast the item once more.
-		# Clients that have the item obtained already should not have their state changed at all.
-
-		# The smart approach is as follows:
-		# First, diff the old player state and the new player state and see if anything has changed
-		# If it has, the player has gained an item. We should intelligently broadcast that out to the clients that have not reported that particular item.
-		# current_client_data.previous_player_state = current_client_data.current_player_state
-		# current_client_data.current_player_state = message.player_state
-
-		# Additional: on the first update, we likely want to actually overwrite the state of all clients with any of the other clients (which should all be the same)
-
 		# TODO - we probably want to sweep all of the handled inventories on some basis to make sure they're synced.
 
 		this_client_data = self.clients[ws_client]
@@ -45,12 +31,19 @@ class Room:
 			this_client_data.player_state = message
 			return
 
+		print(f"This client has a max hp of {this_client_data.player_state['player_stats']['max_hp']}")
 		for client, client_data in self.clients.items():
 			if client != ws_client:
 				for item_slot, item_id in message['inventory'].items():
 					if client_data.player_state and item_is_upgrade(client_data.player_state['inventory'][item_slot], item_id):
-						print('Some player obtained something!')
+						print('Some player obtained an item!')
 						await self.broadcast_message(self.get_obtained_item_json(this_client_data.player_id, item_slot, item_id), {client})
+
+				# for player_status_field, player_status_value in message['player_stats']
+				for player_stat_field, player_stat_value in message['player_stats'].items():
+					if client_data.player_state and player_stat_value > client_data.player_state['player_stats'][player_stat_field]:
+						print('Some player triggered a player stat broadcast!')
+						await self.broadcast_message(self.get_player_status_updated_json(this_client_data.player_id, player_stat_field, player_stat_value), {client})
 
 		this_client_data.player_state = message
 
@@ -61,6 +54,16 @@ class Room:
 				'originating_player_id': player_id,
 				'item_slot': item_slot,
 				'item_id': item_id,
+			}
+		}
+
+	def get_player_status_updated_json(self, player_id, stat_field, stat_value):
+		return {
+			'message_type': 'player_status_updated',
+			'player_status_updated': {
+				'originating_player_id': player_id,
+				'player_status_field': stat_field,
+				'player_status_value': stat_value,
 			}
 		}
 
@@ -84,10 +87,15 @@ class Room:
 			try:
 				await ws.send_json(message)
 			except:
-				ws_clients_to_remove.add(ws)
+				self.ws_clients_to_remove.add(ws)
 
-		for ws in ws_clients_to_remove:
-			await self.remove_client(ws)
+
+	async def remove_bad_clients(self):
+		while True:
+			for ws in self.ws_clients_to_remove:
+				await self.remove_client(ws)
+			self.ws_clients_to_remove.clear()
+			await asyncio.sleep(5.)
 
 	def get_connected_json(self, new_player_id):
 		return {
