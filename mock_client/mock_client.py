@@ -1,34 +1,18 @@
 #!/usr/bin/env python3
 
 import sys
-from windy import memory_access, inventory, ram, player_status
-import dme
 import asyncio
 import argparse
 import aiohttp
 import json
+from datetime import datetime, timedelta
 
-class WWOnlineClient:
+class MockClient:
 	def __init__(self, player_name: str, server_hostname: str):
 		self.player_name = player_name
 		self.server_hostname = server_hostname
 		self.ws = None
-
-	def init(self):
-		dme.DolphinAccessor.init()
-		dme.DolphinAccessor.hook()
-
-		if dme.DolphinAccessor.get_status() != dme.DolphinStatus.hooked:
-			print('Failed to hook to emulator')
-			sys.exit(0)
-
-		print('Hooked to emulator successfully!')
-
-		with open('ww_ram_map.json') as ww_ram_map:
-			ram.initialize_ram_map(ww_ram_map)
-
-		with open('ww_constants.json') as ww_constants:
-			ram.initialize_constants_map(ww_constants)
+		self.start_time = datetime.now()
 
 	def get_login_json(self, player_name, room_name, password):
 		return {
@@ -60,8 +44,8 @@ class WWOnlineClient:
 
 							elif msg.type == aiohttp.WSMsgType.ERROR:
 								break
-				except Exception as e:
-					print(e)
+				except:
+					pass
 
 			self.ws = None
 			print(f'Disconnected from server - retrying in {reconnect_interval} seconds')
@@ -69,7 +53,6 @@ class WWOnlineClient:
 
 	async def handle_player_obtained_item(self, player_obtained_item_message):
 		print(f"Player {player_obtained_item_message['originating_player_id']} obtained item {player_obtained_item_message['item_id']} - adding to our inventory.")
-		inventory.give_player_item_by_id(player_obtained_item_message['item_slot'], player_obtained_item_message['item_id'])
 
 	def get_player_state_json(self, player_state):
 		return {
@@ -77,12 +60,63 @@ class WWOnlineClient:
 			'player_state': player_state
 		}
 
+	def get_initial_inventory(self):
+		return {
+			'Telescope': '20',
+			'Sail': 'FF',
+			'Wind Waker': 'FF',
+			'Grappling Hook': 'FF',
+			'Spoils Bag': 'FF',
+			'Boomerang': 'FF',
+			'Deku Leaf': 'FF',
+			'Tingle Tuner': 'FF',
+			'Picto Box': 'FF',
+			'Iron Boots': 'FF',
+			'Magic Armor': 'FF',
+			'Bait Bag': 'FF',
+			'Bow': 'FF',
+			'Bombs': 'FF',
+			'Bottle 1': 'FF',
+			'Bottle 2': 'FF',
+			'Bottle 3': 'FF',
+			'Bottle 4': 'FF',
+			'Delivery Bag': 'FF',
+			'Hookshot': 'FF',
+			'Skull Hammer': 'FF',
+		}
+
+	def get_final_inventory(self):
+		print('Getting final inventory!')
+		return {
+			'Telescope': '20',
+			'Sail': 'FF',
+			'Wind Waker': 'FF',
+			'Grappling Hook': '25',
+			'Spoils Bag': 'FF',
+			'Boomerang': 'FF',
+			'Deku Leaf': 'FF',
+			'Tingle Tuner': 'FF',
+			'Picto Box': 'FF',
+			'Iron Boots': 'FF',
+			'Magic Armor': 'FF',
+			'Bait Bag': 'FF',
+			'Bow': 'FF',
+			'Bombs': 'FF',
+			'Bottle 1': 'FF',
+			'Bottle 2': 'FF',
+			'Bottle 3': 'FF',
+			'Bottle 4': 'FF',
+			'Delivery Bag': 'FF',
+			'Hookshot': 'FF',
+			'Skull Hammer': 'FF',
+		}
+
 	async def send_current_state(self):
 		while True:
 			if self.ws:
 				player_state = {
 					'player_id': self.player_name,
-					'inventory': inventory.build_inventory_state(),
+					'inventory': self.get_initial_inventory() if self.start_time + timedelta(0, 10) > datetime.now() else self.get_final_inventory(),
 				}
 
 				await self.ws.send_json(self.get_player_state_json(player_state))
@@ -91,8 +125,7 @@ class WWOnlineClient:
 
 
 async def main(args):
-	client = WWOnlineClient(player_name=args.player_name, server_hostname=args.server_hostname)
-	client.init()
+	client = MockClient(player_name=args.player_name, server_hostname=args.server_hostname)
 
 	connect_to_server_task = [asyncio.create_task(client.connect_to_server(args.room_name, args.room_password))]
 	send_current_state_task = [asyncio.create_task(client.send_current_state())]

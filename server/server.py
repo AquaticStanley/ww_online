@@ -29,7 +29,6 @@ class WWOnlineServer:
 					await ws.close()
 
 				client_message = json.loads(msg.data)
-				print(client_message)
 				if client_message['message_type'] == 'player_login_request':
 					room_name = client_message['player_login_request']['room_name']
 					await self.handle_login_request(ws, client_message['player_login_request'])

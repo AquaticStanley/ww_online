@@ -9,6 +9,10 @@ def item_is_upgrade(existing_item_id, proposed_item_id):
 	if proposed_item_id == 'FF':
 		return False
 
+	# Always consider something an upgrade
+	if existing_item_id == 'FF':
+		return True
+
 	# Rely on the fact that for upgradable slots, they're increasing as the item gets better
 	return int(existing_item_id, 16) < int(proposed_item_id, 16)
 
@@ -41,11 +45,14 @@ class Room:
 			this_client_data.player_state = message
 			return
 
-		for client, client_state in self.clients.items():
+		for client, client_data in self.clients.items():
 			if client != ws_client:
 				for item_slot, item_id in message['inventory'].items():
-					if item_is_upgrade(client.player_state['inventory'][item_slot], item_id):
+					if client_data.player_state and item_is_upgrade(client_data.player_state['inventory'][item_slot], item_id):
+						print('Some player obtained something!')
 						await self.broadcast_message(self.get_obtained_item_json(this_client_data.player_id, item_slot, item_id), {client})
+
+		this_client_data.player_state = message
 
 	def get_obtained_item_json(self, player_id, item_slot, item_id):
 		return {
