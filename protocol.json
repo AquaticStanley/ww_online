@@ -57,8 +57,11 @@
 			"Hookshot": "Hookshot",
 			"Skull Hammer": "Skull Hammer",
 		},
-		"player_state": {
+		"player_stats": {
 			"max_health": 32
+		},
+		"equipment": {
+			"": ""
 		}
 	}
 }

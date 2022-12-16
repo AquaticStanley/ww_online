@@ -9,7 +9,8 @@ import aiohttp
 import json
 
 class WWOnlineClient:
-	def __init__(self, server_hostname: str):
+	def __init__(self, player_name: str, server_hostname: str):
+		self.player_name = player_name
 		self.server_hostname = server_hostname
 		self.ws = None
 
@@ -39,14 +40,15 @@ class WWOnlineClient:
 			}
 		}
 
-	async def connect_to_server(self, player_name, room_name, password):
+	async def connect_to_server(self, room_name, password):
 		reconnect_interval = 5.0
 		while True:
+			print(inventory.player_has_item('Telescope'))
 			async with aiohttp.ClientSession() as session:
 				try:
 					async with session.ws_connect(f'http://{self.server_hostname}:8080/ws') as ws:
 						self.ws = ws
-						await ws.send_json(self.get_login_json(player_name, room_name, password))
+						await ws.send_json(self.get_login_json(self.player_name, room_name, password))
 						async for msg in ws:
 							if msg.type == aiohttp.WSMsgType.TEXT:
 								if msg.data == 'close cmd':
@@ -63,22 +65,32 @@ class WWOnlineClient:
 			print(f'Disconnected from server - retrying in {reconnect_interval} seconds')
 			await asyncio.sleep(reconnect_interval)
 
+	def get_player_state_json(self, player_state):
+		return {
+			'message_type': 'player_state',
+			'player_state': player_state
+		}
+
 	async def send_current_state(self):
-		# Need to track changes in our state and send these changes to the server
-		# The harder thing to do here is handle cases where two clients get the 'same' upgrade, from different sources.
-		# We can handle this later.
 		while True:
 			if self.ws:
-				pass
+				# TODO other player information
+				# inventory_state = inventory.build_inventory_state()
+				player_state = {
+					'player_id': self.player_name,
+					'inventory': inventory.build_inventory_state(),
+				}
+
+				await self.ws.send_json(self.get_player_state_json(player_state))
 
 			await asyncio.sleep(1.)
 
 
 async def main(args):
-	client = WWOnlineClient(server_hostname=args.server_hostname)
+	client = WWOnlineClient(player_name=args.player_name, server_hostname=args.server_hostname)
 	client.init()
 
-	connect_to_server_task = [asyncio.create_task(client.connect_to_server(args.player_name, args.room_name, args.room_password))]
+	connect_to_server_task = [asyncio.create_task(client.connect_to_server(args.room_name, args.room_password))]
 	send_current_state_task = [asyncio.create_task(client.send_current_state())]
 	tasks = connect_to_server_task + send_current_state_task
 
