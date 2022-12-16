@@ -33,11 +33,11 @@ class WWOnlineServer:
 				if client_message['message_type'] == 'player_login_request':
 					room_name = client_message['player_login_request']['room_name']
 					await self.handle_login_request(ws, client_message['player_login_request'])
-			elif msg.type == WSMsgType.ERROR:
-				print(f'ws connection closed with exception {ws.exception()}')
 
-		print('websocket connection closed')
+				elif client_message['message_type'] == 'player_state':
+					await self.rooms[room_name].handle_player_state_update(ws, client_message['player_state'])
 
+		print(f'Client disconnected (belonged to room {room_name})')
 		if room_name and room_name in self.rooms:
 			await self.rooms[room_name].remove_client(ws)
 
@@ -68,9 +68,11 @@ async def main(args):
 	await runner.setup()
 	site = web.TCPSite(runner)
 	await site.start()
+	print('Server started')
 
 	purge_unused_rooms_task = [asyncio.create_task(server.purge_unused_rooms())]
 	tasks = purge_unused_rooms_task
+
 	await asyncio.gather(*tasks)
 
 if __name__ == '__main__':

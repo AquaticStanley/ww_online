@@ -26,7 +26,7 @@
 	"player_obtained_item": {
 		"originating_player_id": "tristan",
 		"item_slot": "Tingle Tuner",
-		"item_name": "Tingle Tuner"
+		"item_id": "55"
 	}
 }
 

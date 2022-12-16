@@ -54,7 +54,10 @@ class WWOnlineClient:
 								if msg.data == 'close cmd':
 									await ws.close()
 									break
-								print(f'Received data from server: {msg.data}')
+
+								server_message = json.loads(msg.data)
+								if server_message['message_type'] == 'player_obtained_item':
+									await self.handle_player_obtained_item(server_message['player_obtained_item'])
 
 							elif msg.type == aiohttp.WSMsgType.ERROR:
 								break
@@ -64,6 +67,9 @@ class WWOnlineClient:
 			self.ws = None
 			print(f'Disconnected from server - retrying in {reconnect_interval} seconds')
 			await asyncio.sleep(reconnect_interval)
+
+	async def handle_player_obtained_item(self, player_obtained_item_message):
+		print(f"Player {player_obtained_item_message['originating_player_id']} obtained item {player_obtained_item_message['item_id']} - adding to our inventory.")
 
 	def get_player_state_json(self, player_state):
 		return {
