@@ -42,20 +42,22 @@ class WWOnlineClient:
 	async def connect_to_server(self, player_name, room_name, password):
 		reconnect_interval = 5.0
 		while True:
-			print(inventory.player_has_item('Telescope'))
 			async with aiohttp.ClientSession() as session:
-				async with session.ws_connect(f'http://{self.server_hostname}:8080/ws') as ws:
-					self.ws = ws
-					await ws.send_json(self.get_login_json(player_name, room_name, password))
-					async for msg in ws:
-						if msg.type == aiohttp.WSMsgType.TEXT:
-							if msg.data == 'close cmd':
-								await ws.close()
-								break
-							print(f'Received data from server: {msg.data}')
+				try:
+					async with session.ws_connect(f'http://{self.server_hostname}:8080/ws') as ws:
+						self.ws = ws
+						await ws.send_json(self.get_login_json(player_name, room_name, password))
+						async for msg in ws:
+							if msg.type == aiohttp.WSMsgType.TEXT:
+								if msg.data == 'close cmd':
+									await ws.close()
+									break
+								print(f'Received data from server: {msg.data}')
 
-						elif msg.type == aiohttp.WSMsgType.ERROR:
-							break
+							elif msg.type == aiohttp.WSMsgType.ERROR:
+								break
+				except:
+					pass
 
 			self.ws = None
 			print(f'Disconnected from server - retrying in {reconnect_interval} seconds')
