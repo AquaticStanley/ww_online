@@ -22,15 +22,24 @@ class Room:
 	async def add_client(self, ws_client, player_id):
 		self.clients[ws_client] = ClientData(player_id)
 
-		for ws in self.clients:
-			await ws.send_json(self.get_connected_json(player_id))
+		await self.broadcast_message(self.get_connected_json(player_id))
 
 	async def remove_client(self, ws_client):
 		player_id = self.clients[ws_client].player_id
 		del self.clients[ws_client]
 
-		for ws, client_data in self.clients.items():
-			await ws.send_json(self.get_disconnected_json(player_id))
+		await self.broadcast_message(self.get_disconnected_json(player_id))
+
+	async def broadcast_message(self, message):
+		ws_clients_to_remove = set()
+		for ws in self.clients:
+			try:
+				await ws.send_json(message)
+			except:
+				ws_clients_to_remove.add(ws)
+
+		for ws in ws_clients_to_remove:
+			await self.remove_client(ws)
 
 	def get_connected_json(self, new_player_id):
 		return {

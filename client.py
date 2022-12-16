@@ -42,6 +42,7 @@ class WWOnlineClient:
 	async def connect_to_server(self, player_name, room_name, password):
 		reconnect_interval = 5.0
 		while True:
+			print(inventory.player_has_item('Telescope'))
 			async with aiohttp.ClientSession() as session:
 				async with session.ws_connect(f'http://{self.server_hostname}:8080/ws') as ws:
 					self.ws = ws
@@ -51,7 +52,7 @@ class WWOnlineClient:
 							if msg.data == 'close cmd':
 								await ws.close()
 								break
-							print(msg.data)
+							print(f'Received data from server: {msg.data}')
 
 						elif msg.type == aiohttp.WSMsgType.ERROR:
 							break
