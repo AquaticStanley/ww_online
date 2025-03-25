@@ -31,7 +31,7 @@ class Room:
 			this_client_data.player_state = message
 			return
 
-		print(f"This client has a max hp of {this_client_data.player_state['player_stats']['max_hp']}")
+		print(f"Client {this_client_data.player_id} has a max hp of {this_client_data.player_state['player_stats']['max_hp']}")
 		for client, client_data in self.clients.items():
 			if client != ws_client:
 				for item_slot, item_id in message['inventory'].items():
@@ -42,7 +42,7 @@ class Room:
 				# for player_status_field, player_status_value in message['player_stats']
 				for player_stat_field, player_stat_value in message['player_stats'].items():
 					if client_data.player_state and player_stat_value > client_data.player_state['player_stats'][player_stat_field]:
-						print('Some player triggered a player stat broadcast!')
+						print(f"Some player triggered a player stat broadcast! Field {player_stat_field} ({player_stat_value} > {client_data.player_state['player_stats'][player_stat_field]})")
 						await self.broadcast_message(self.get_player_status_updated_json(this_client_data.player_id, player_stat_field, player_stat_value), {client})
 
 		this_client_data.player_state = message

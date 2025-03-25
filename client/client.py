@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import sys
+sys.path.append('/home/desu/Development/ww-online/ww_online/build')
+
 from windy import memory_access, inventory, ram, player_status
 import dme
 import asyncio
@@ -71,10 +73,14 @@ class WWOnlineClient:
 			await asyncio.sleep(reconnect_interval)
 
 	async def handle_player_obtained_item(self, player_obtained_item_message):
+		print('got here 1')
 		print(f"Player {player_obtained_item_message['originating_player_id']} obtained item {player_obtained_item_message['item_id']} - adding to our inventory.")
+		print(player_obtained_item_message)
 		inventory.give_player_item_by_id(player_obtained_item_message['item_slot'], player_obtained_item_message['item_id'])
+		print('Gave player the item!')
 
 	async def handle_player_status_updated(self, player_status_updated_message):
+		print('got here 2')
 		print(f"Player {player_status_updated_message['originating_player_id']} updated their {player_status_updated_message['player_status_field']} to {player_status_updated_message['player_status_value']}")
 		# Special case for hp, possibly rupees and other values?
 		if player_status_updated_message['player_status_field'] == 'max_hp':
