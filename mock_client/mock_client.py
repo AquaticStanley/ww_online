@@ -114,6 +114,7 @@ class MockClient:
 	def get_player_stats(self):
 		return {
 			'max_hp': 32,
+			'equipped_sword': '3E',
 		}
 
 	async def send_current_state(self):

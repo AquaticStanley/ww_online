@@ -1,9 +1,19 @@
 {
 	"equipped_sword": {
+		"no_sword": "FF",
 		"hero_sword": "38",
 		"master_sword_powerless": "39",
 		"master_sword_half_power": "3A",
 		"master_sword_full_power": "3E"
+	},
+	"owned_item_indicator": {
+		"sword": {
+			"no_sword": "0",
+			"hero_sword": "1",
+			"master_sword_powerless": "2",
+			"master_sword_half_power": "3",
+			"master_sword_full_power": "4"
+		}
 	},
 	"items": {
 		"Nothing": {
@@ -48,55 +58,55 @@
 		"Bait Bag": {
 			"id": "2C"
 		},
-		"Bow" : {
+		"Bow": {
 			"id": "27"
 		},
-		"Bow+" : {
+		"Bow+": {
 			"id": "35"
 		},
-		"Bow++" : {
+		"Bow++": {
 			"id": "36"
 		},
-		"Bombs" : {
+		"Bombs": {
 			"id": "31"
 		},
-		"Empty Bottle" : {
+		"Empty Bottle": {
 			"id": "50"
 		},
-		"Red Potion" : {
+		"Red Potion": {
 			"id": "51"
 		},
-		"Green Potion" : {
+		"Green Potion": {
 			"id": "52"
 		},
-		"Blue Potion" : {
+		"Blue Potion": {
 			"id": "53"
 		},
-		"Elixir Soup-" : {
+		"Elixir Soup-": {
 			"id": "54"
 		},
-		"Elixir Soup" : {
+		"Elixir Soup": {
 			"id": "55"
 		},
-		"Bottled Water" : {
+		"Bottled Water": {
 			"id": "56"
 		},
-		"Fairy in Bottle" : {
+		"Fairy in Bottle": {
 			"id": "57"
 		},
-		"Forest Firefly" : {
+		"Forest Firefly": {
 			"id": "58"
 		},
-		"Forest Water" : {
+		"Forest Water": {
 			"id": "59"
 		},
-		"Delivery Bag" : {
+		"Delivery Bag": {
 			"id": "30"
 		},
-		"Hookshot" : {
+		"Hookshot": {
 			"id": "2F"
 		},
-		"Skull Hammer" : {
+		"Skull Hammer": {
 			"id": "33"
 		}
 	}

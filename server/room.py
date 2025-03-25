@@ -31,7 +31,8 @@ class Room:
 			this_client_data.player_state = message
 			return
 
-		print(f"Client {this_client_data.player_id} has a max hp of {this_client_data.player_state['player_stats']['max_hp']}")
+		# print(f"Client {this_client_data.player_id} has a max hp of {this_client_data.player_state['player_stats']['max_hp']}")
+		print(f"{this_client_data.player_id} - {message['player_stats']}")
 		for client, client_data in self.clients.items():
 			if client != ws_client:
 				for item_slot, item_id in message['inventory'].items():
@@ -39,9 +40,22 @@ class Room:
 						print('Some player obtained an item!')
 						await self.broadcast_message(self.get_obtained_item_json(this_client_data.player_id, item_slot, item_id), {client})
 
-				# for player_status_field, player_status_value in message['player_stats']
 				for player_stat_field, player_stat_value in message['player_stats'].items():
-					if client_data.player_state and player_stat_value > client_data.player_state['player_stats'][player_stat_field]:
+					print(f'{player_stat_field} -> {type(player_stat_value)}')
+					if isinstance(player_stat_value, str):
+						# Exception for hex values - need an exception both to convert properly and to do our comparison properly
+						# We generally replace items with a higher value, but FFFFFF is considered null generally
+						# Heuristic for "null" value is going to be length of value replaced by F
+						if client_data.player_state:
+							null_hex_value = int(''.join(['F' for c in player_stat_value]), 16)
+							incoming_stat_hex_value = int(player_stat_value, 16)
+							client_stat_hex_value = int(client_data.player_state['player_stats'][player_stat_field], 16)
+							if incoming_stat_hex_value != client_stat_hex_value:
+								if client_stat_hex_value == null_hex_value or incoming_stat_hex_value > client_stat_hex_value:
+									print(f'Some player triggered a hex player stat broadcast! ({player_stat_value} > {client_data.player_state["player_stats"][player_stat_field]})')
+									await self.broadcast_message(self.get_player_status_updated_json(this_client_data.player_id, player_stat_field, player_stat_value), {client})
+
+					elif client_data.player_state and player_stat_value > client_data.player_state['player_stats'][player_stat_field]:
 						print(f"Some player triggered a player stat broadcast! Field {player_stat_field} ({player_stat_value} > {client_data.player_state['player_stats'][player_stat_field]})")
 						await self.broadcast_message(self.get_player_status_updated_json(this_client_data.player_id, player_stat_field, player_stat_value), {client})
 

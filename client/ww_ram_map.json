@@ -27,11 +27,19 @@
 		"equipped_sword": {
 			"size": 1,
 			"location": "803C4C16",
-			"mem_type": "HALFWORD",
+			"mem_type": "BYTEARRAY",
 			"mem_base": "DEC"
 		}
 	},
 	"player_inventory": {
+		"owned_items": {
+			"Sword": {
+				"size": 1,
+				"location": "803C4CBC",
+				"mem_type": "BYTEARRAY",
+				"mem_base": "DEC"
+			}
+		},
 		"pause_screen": {
 			"Telescope": {
 				"size": 1,
